@@ -1,5 +1,7 @@
 import { Component, inject, signal, } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-page',
@@ -8,6 +10,8 @@ import { FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
   styleUrl: './login-page.component.css'
 })
 export class LoginPageComponent {
+  authService = inject(AuthService);
+  router = inject(Router);
   fh = inject(FormBuilder);
   hasError = signal(false);
   type = 'password';
@@ -37,6 +41,18 @@ export class LoginPageComponent {
       return;
     }
     const {email = '', password = ''} = this.loginForm.value;
-    console.log({email, password});
+    this.authService.login(email!, password!).subscribe((isAuthenticated) => {
+
+      if(isAuthenticated){
+        alert('Login successful');
+        this.router.navigateByUrl('/dashboard');
+        return;
+      }
+      this.hasError.set(true);
+      setTimeout(() => {
+        this.hasError.set(false);
+      }, 2000);
+      return;
+    });
   }
 }

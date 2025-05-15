@@ -1,0 +1,41 @@
+<h1 class="text-2xl font-montserrat font-bold text-secondary text-center mb-2">
+  login
+</h1>
+
+<form action="" class="flex flex-col gap-2" [formGroup]="loginForm" (ngSubmit)="onsubmit()">
+
+  <label class="input validator">
+    <i class="bi bi-envelope opacity-50"></i>
+    <input
+      type="email"
+      placeholder="mail@site.com"
+      formControlName="email"
+    />
+  </label>
+  <div class="validator-hint hidden">Enter valid email address</div>
+
+  <div class="join w-full">
+    <label class="input validator join-item">
+      <i class="bi bi-key opacity-50"></i>
+      <input
+        [type]="type"
+        placeholder="mail@site.com"
+        required
+        formControlName="password"
+      />
+    </label>
+    <div class="btn btn-neutral join-item" (click)="showPassword(type)">
+      <i [class]="icon"></i>
+    </div>
+  </div>
+  <div class="validator-hint hidden">Enter valid email address</div>
+
+  <button type="submit" class="btn btn-secondary">Login</button>
+</form>
+
+@if (hasError()){
+<div role="alert" class="alert alert-error fixed bottom-5 right-5 w-80">
+  <i class="bi bi-x-circle"></i>
+  <span>Error! Verify the information provided.</span>
+</div>
+}

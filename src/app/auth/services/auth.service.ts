@@ -29,14 +29,14 @@ export class AuthService extends BaseHttpService {
     isAdmin = computed(() =>this._user()?.Role?.name.includes('admin') ?? false);
 
     login(email: string, password: string):Observable<boolean>{
-      return this.http.post<any>('${this.apiUrl}/auth/login', {email, password}).pipe(map((resp)=>this.handleAuthSuccess(resp)),
+      return this.http.post<any>(`${this.apiUrl}/auth/login`, {email, password}).pipe(map((resp)=>this.handleAuthSuccess(resp)),
       catchError((error:any)=>this.handleAuthError(error)
       )
     );
   }
   
   register(data: any): Observable<boolean> {
-    return this.http.post<any>('${this.apiUrl}/auth/register', data).pipe(map((resp)=>this.handleAuthSuccess(resp)),
+    return this.http.post<any>(`${this.apiUrl}/auth/register`, data).pipe(map((resp)=>this.handleAuthSuccess(resp)),
       catchError((error:any)=>this.handleAuthError(error)
       )
     );
@@ -48,7 +48,7 @@ export class AuthService extends BaseHttpService {
       this.logout();
       return of(false);
     }
-    return this.http.get<any>('${this.apiUrl}/auth/check-status').pipe(map((resp)=>this.handleAuthSuccess(resp)),
+    return this.http.get<any>(`${this.apiUrl}/auth/check-status`).pipe(map((resp)=>this.handleAuthSuccess(resp)),
       catchError((error:any)=>this.handleAuthError(error)
       )
     );

@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class LoginPageComponent {
   authService = inject(AuthService);
   router = inject(Router);
-  fh = inject(FormBuilder);
+  fb = inject(FormBuilder);
   hasError = signal(false);
   type = 'password';
   icon = 'bi bi-eye';
@@ -27,7 +27,7 @@ export class LoginPageComponent {
     }
   }
 
-  loginForm = this.fh.group({
+  loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
   });

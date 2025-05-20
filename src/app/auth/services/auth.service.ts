@@ -34,7 +34,7 @@ export class AuthService extends BaseHttpService {
       )
     );
   }
-  
+
   register(data: any): Observable<boolean> {
     return this.http.post<any>(`${this.apiUrl}/auth/register`, data).pipe(map((resp)=>this.handleAuthSuccess(resp)),
       catchError((error:any)=>this.handleAuthError(error)
@@ -55,26 +55,26 @@ export class AuthService extends BaseHttpService {
   }
 
   logout(): void {
-        this._user.set('')
-        this._token.set('');
-        this._authStatus.set('not-authenticated');
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+    this._user.set('');
+    this._token.set('');
+    this._authStatus.set('not-authenticated');
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
   }
 
-    private handleAuthSuccess(resp: any){        
-        this._user.set(resp.data.user)
-        this._token.set(resp.data.token);
-        this._authStatus.set('authenticated');
-        localStorage.setItem('token', resp.data.token);
-        localStorage.setItem('user', JSON.stringify(resp.data.user));
-        return true;
+  private handleAuthSuccess(resp: any){
+    this._user.set(resp.data.user)
+    this._token.set(resp.data.token);
+    this._authStatus.set('authenticated');
+    localStorage.setItem('token', resp.data.token);
+    localStorage.setItem('user', JSON.stringify(resp.data.user));
+    return true;
   }
 
   private handleAuthError(error: any){
-        this.logout();
-        return of(false);
-   }
+    this.logout();
+    return of(false);
+  }
 
 }
 

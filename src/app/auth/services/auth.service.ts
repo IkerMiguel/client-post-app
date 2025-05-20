@@ -29,9 +29,8 @@ export class AuthService extends BaseHttpService {
     isAdmin = computed(() =>this._user()?.Role?.name.includes('admin') ?? false);
 
     login(email: string, password: string):Observable<boolean>{
-      return this.http.post<any>(`${this.apiUrl}/auth/login`, {email, password}).pipe(map((resp)=>this.handleAuthSuccess(resp)),
-      catchError((error:any)=>this.handleAuthError(error)
-      )
+      return this.http.post<any>(`${this.apiUrl}/auth/login`, {email,password}).pipe(map((resp)=>this.handleAuthSuccess(resp)),
+      catchError((error:any)=>this.handleAuthError(error))
     );
   }
 

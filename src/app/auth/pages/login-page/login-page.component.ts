@@ -2,6 +2,7 @@ import { Component, inject, signal, } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login-page',
@@ -17,6 +18,13 @@ export class LoginPageComponent {
   type = 'password';
   icon = 'bi bi-eye';
 
+  ngOnInit() {
+    const rememberedEmail = localStorage.getItem('rememberedEmail');
+    if (rememberedEmail) {
+      this.loginForm.patchValue({ email: rememberedEmail, rememberMe: true });
+    }
+  }
+
   showPassword(type: string) {
     if(type === 'password') {
       this.type = 'text';
@@ -30,6 +38,7 @@ export class LoginPageComponent {
   loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
+    rememberMe: [false]
   });
 
   onsubmit() {
@@ -40,11 +49,25 @@ export class LoginPageComponent {
       }, 2000);
       return;
     }
-    const {email = '', password = ''} = this.loginForm.value;
+    const {email = '', password = '',rememberMe} = this.loginForm.value;
+
+    if (rememberMe) {
+      localStorage.setItem('rememberedEmail', email!);
+    }else{
+      localStorage.removeItem('rememberedEmail');
+    }
+
+
     this.authService.login(email!, password!).subscribe((isAuthenticated) => {
 
       if(isAuthenticated){
-        alert('Login successful');
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Your are logged in",
+          showConfirmButton: false,
+          timer: 1500
+        });
         this.router.navigateByUrl('/dashboard');
         return;
       }

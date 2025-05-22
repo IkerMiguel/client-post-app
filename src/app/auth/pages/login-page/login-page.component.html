@@ -29,7 +29,17 @@
     </div>
   </div>
   <div class="validator-hint hidden">Enter password</div>
-
+    <fieldset class="fieldset bg-slate-100 border-base-300 rounded-box w-64 border p-4 text-black text-center w-full">
+      <legend class="fieldset-legend text-black">Login options</legend>
+      <label class="label justify-center">
+        <input type="checkbox"
+         checked="checked"
+          class="checkbox checkbox-secondary"
+          formControlName="rememberMe"
+           />
+        Remember me
+      </label>
+    </fieldset>
   <button type="submit" class="btn btn-secondary">Login</button>
 </form>
 

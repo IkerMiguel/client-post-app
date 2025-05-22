@@ -24,7 +24,7 @@
       </div>
       <div id="nav" class="w-full px-6">
         <a
-          class="w-full px-2 inline-flex space-x-2 items-center border-b border-slate-700 py-3 hover:bg-white/5 transition ease-linear duration-150"
+          class="w-full px-2 inline-flex space-x-2 items-center border-b border-slate-700 py-3 hover:bg-white/5 transition ease-linear duration-150 rounded-xl"
           [routerLink]="['/dashboard/users']"
           routerLinkActive="bg-blue-800">
           <div>
@@ -35,6 +35,12 @@
             <span class="text-sm text-slate-500 hidden md:block">Gestion de Usuarios</span>
           </div>
         </a>
+      </div>
+      <div id="nav" class="w-full px-6">
+          <div class="flex items-center justify-center mt-5">
+            <a class="btn btn-warning" (click)="logout()">
+              <i class="bi bi-box-arrow-in-left"></i>Logout</a>
+          </div>
       </div>
     </div>
     <div class="ml-64 p-5 flex-col flex-1 h-full">

@@ -26,12 +26,26 @@ export interface User {
     avatar:     string;
     createdAt:  Date;
     updatedAt:  Date;
-    Role:       Role;
+    Role?:       Role;
+    role_id?:   string;
 }
 
 export interface Role {
     id:   string;
     name: string;
+}
+
+export interface RoleResponse {
+    success: boolean;
+    message: string;
+    data:    Role[];
+}
+
+export interface Role {
+    id:        string;
+    name:      string;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 

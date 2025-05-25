@@ -1,0 +1,70 @@
+<h1 class="text-2x1 font-bold text-secondary">
+    {{ user().first_name }} {{ user().last_name }} 
+</h1>
+
+<div class="divider divider-secondary"></div>
+
+<form
+    [formGroup]="userForm"
+    class="grid grid-cols-1 sm:grid-cols-2 gap-4"
+    (ngSubmit)="onSubmit()"
+>
+    <div class="flex flex-col gap-2">
+        <h2>Datos del usuario</h2>
+            <input 
+            type="text"
+            placeholder="first name"
+            class="input input-bordered w-full"
+            formControlName="first_name"
+            />
+
+            <input 
+            type="text"
+            placeholder="last name"
+            class="input input-bordered w-full"
+            formControlName="last_name"
+            />
+
+            <input 
+            type="text"
+            placeholder="email"
+            class="input input-bordered w-full"
+            formControlName="email"
+            />
+
+            <input 
+            type="text"
+            placeholder="telephone"
+            class="input input-bordered w-full"
+            formControlName="telephone"
+            />
+
+            <select class="select select-bordered w-full" formControlName="role_id">
+            @for (role of rolerResource.value()?.data; track role.id) {
+                <option [value]="role.id">{{ role.name }}</option>
+            }
+        </select> 
+
+        <div class="flex justify-end h-12">
+            <button class="btn btn-secondary" type="submit">
+
+                Guardar
+            </button>
+    </div>
+    </div>
+
+
+    <div class="flex flex-col gap-2 h-[500px]">
+        <!--<img
+            class="w-full object-cover animate-fadeIn"
+            [src]="user().id | userImage"
+            [alt]="user().avatar"
+            width="500"
+            height="500"
+            priority
+        /> -->
+
+        <input type="file" class="file-input file-input-bordered w-full mt-4">
+        
+    </div>
+</form>

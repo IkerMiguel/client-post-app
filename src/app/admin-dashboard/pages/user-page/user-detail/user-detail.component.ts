@@ -3,21 +3,20 @@ import { User } from '../../../../users/interfaces/user.interface';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../../../../users/services/user.service';
-import { rxResource} from '@angular/core/rxjs-interop';
+import { rxResource } from '@angular/core/rxjs-interop';
 import { UserImagePipe } from '../../../../users/pipes/user-image.pipe';
-import Swal from 'sweetalert2'
-
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'user-detail',
   imports: [ReactiveFormsModule, UserImagePipe],
   templateUrl: './user-detail.component.html',
-  styleUrl: './user-detail.component.css'
+  styleUrl: './user-detail.component.css',
 })
 export class UserDetailComponent {
   user = input.required<User>();
   router = inject(Router);
-  fb=inject(FormBuilder);
+  fb = inject(FormBuilder);
 
   UserService = inject(UserService);
 
@@ -32,13 +31,6 @@ export class UserDetailComponent {
   });
 
   ngOnInit() {
-
-    console.log('User:', this.user());
-
-    if (!this.user().Role) {
-      console.warn('El usuario no tiene la propiedad Role. ¿Está cargado correctamente?');
-    }
-
     this.userForm.patchValue({
       first_name: this.user().first_name,
       last_name: this.user().last_name,
@@ -49,7 +41,7 @@ export class UserDetailComponent {
       password: '',
     });
 
-      console.log('Roles data:', this.rolerResource.value()?.data);
+    console.log(this.userForm.value);
   }
 
   rolerResource = rxResource({
@@ -63,34 +55,31 @@ export class UserDetailComponent {
     const isValid = this.userForm.valid;
     this.userForm.markAllAsTouched();
 
-    if (!isValid) return
+    if (!isValid) return;
 
     const formValue = this.userForm.value;
 
     if (this.user().id === 'new') {
-
-      this.UserService.created(formValue).subscribe((resp)=>{
+      this.UserService.created(formValue).subscribe((resp) => {
         Swal.fire({
           position: 'center',
           icon: 'success',
-          title: 'Product created',
+          title: 'User created',
           showConfirmButton: false,
           timer: 1500,
         });
         this.router.navigate(['/dashboard/users', resp.data.id]);
-      })
-    }else{
-
-      this.UserService.updated(this.user().id, formValue).subscribe((resp)=>{
-
+      });
+    } else {
+      this.UserService.updated(this.user().id, formValue).subscribe((resp) => {
         Swal.fire({
           position: 'center',
           icon: 'success',
-          title: 'Product Updated',
+          title: 'User Updated',
           showConfirmButton: false,
           timer: 1500,
         });
-      }); 
+      });
     }
   }
 }

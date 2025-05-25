@@ -17,6 +17,9 @@ export class UserDetailComponent {
   user = input.required<User>();
   router = inject(Router);
   fb = inject(FormBuilder);
+  previewIMG = false;
+  previewURL: string | null = null;
+  avatarFile: File | null = null;
 
   UserService = inject(UserService);
 
@@ -61,6 +64,20 @@ export class UserDetailComponent {
 
     if (this.user().id === 'new') {
       this.UserService.created(formValue).subscribe((resp) => {
+        if (this.avatarFile) {
+          this.UserService.uploadAvatar(
+            resp.data.id,
+            this.avatarFile,
+          ).subscribe(() => {
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: 'User created',
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          });
+        }
         Swal.fire({
           position: 'center',
           icon: 'success',
@@ -72,6 +89,20 @@ export class UserDetailComponent {
       });
     } else {
       this.UserService.updated(this.user().id, formValue).subscribe((resp) => {
+        if (this.avatarFile) {
+          this.UserService.uploadAvatar(
+            this.user().id,
+            this.avatarFile,
+          ).subscribe(() => {
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: 'User Updated',
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          });
+        }
         Swal.fire({
           position: 'center',
           icon: 'success',
@@ -80,6 +111,15 @@ export class UserDetailComponent {
           timer: 1500,
         });
       });
+    }
+  }
+
+  onFilesChange(event: Event) {
+    const file = (event.target as HTMLInputElement).files;
+    if (file && file.length > 0) {
+      this.previewIMG = true;
+      this.previewURL = URL.createObjectURL(file[0]);
+      this.avatarFile = file[0];
     }
   }
 }

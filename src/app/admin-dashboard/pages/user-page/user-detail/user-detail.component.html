@@ -36,16 +36,33 @@
 
 
   <div class="flex flex-col gap-2 h-[500px]">
-    <!--<img
-            class="w-full object-cover animate-fadeIn"
-            [src]="user().id | userImage"
-            [alt]="user().avatar"
-            width="500"
-            height="500"
-            priority
-        /> -->
+    <div class="flex items-center justify-center">
+      @if (!previewIMG) {
+      <img
+        class="object-contain animate-fadeIn h-[300px]"
+        [src]="user().id | userImage"
+        [alt]="user().avatar"
+        width="500"
+        height="500"
+      />
+      }@else {
+      <img
+        class="object-contain animate-fadeIn h-[300px]"
+        [src]="previewURL"
+        [alt]="user().avatar"
+        width="500"
+        height="500"
+      />
+      }
+    </div>
 
-    <input type="file" class="file-input file-input-bordered w-full mt-4">
+
+    <input
+      type="file"
+      accept="image/*"
+      class="file-input file-input-bordered w-full mt-4"
+      (change)="onFilesChange($event)"
+    />
 
   </div>
 </form>

@@ -25,12 +25,12 @@ export class UserService extends BaseHttpService{
   }
     getUser(id: string): Observable<UserResponse> {
 
-      if(id === "new") 
+      if(id === "new")
         return of({
           success: false,
           message: '',
           data:    emptyUser,
-        }); 
+        });
     return this.http.get<UserResponse>(`${this.apiUrl}/users/${id}`)
   }
 
@@ -41,9 +41,15 @@ export class UserService extends BaseHttpService{
 
   created(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/users`, data);
-  }  
+  }
 
   updated(id: string, data: any): Observable<any> {
     return this.http.patch(`${this.apiUrl}/users/${id}`, data);
+  }
+
+  uploadAvatar(id: string, image: File): Observable<string> {
+    const formData = new FormData();
+    formData.append('avatar', image);
+    return this.http.put<string>(`${this.apiUrl}/users/avatar/${id}`, formData);
   }
 }

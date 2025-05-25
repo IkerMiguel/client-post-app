@@ -9,6 +9,9 @@ const baseUrl = environment.apiURL;
 })
 export class UserImagePipe implements PipeTransform {
     transform(value: string):string {
+      if (value === 'new') {
+        return './assets/images/avatar/avatar-user.png';
+      }
         return `${baseUrl}/users/avatar/${value}`;
     }
 }

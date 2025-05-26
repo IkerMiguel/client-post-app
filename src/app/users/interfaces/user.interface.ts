@@ -28,6 +28,7 @@ export interface User {
     updatedAt:  Date;
     Role?:       Role;
     role_id?:   string;
+    auth?: boolean;
 }
 
 export interface Role {

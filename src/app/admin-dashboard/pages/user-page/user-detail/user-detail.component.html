@@ -5,64 +5,71 @@
 <div class="divider divider-secondary"></div>
 
 <form [formGroup]="userForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4" (ngSubmit)="onSubmit()">
-  <div class="flex flex-col gap-2">
+
+  <div class="flex flex-col gap-3">
     <h2>Datos del usuario</h2>
-    <input type="text" placeholder="first name" class="input input-bordered w-full" formControlName="first_name" />
 
-    <input type="text" placeholder="last name" class="input input-bordered w-full" formControlName="last_name" />
+    <label class="floating-label">
+      <span>First Name</span>
+      <input type="text" placeholder="First Name" class="input input-md input-bordered w-full"
+        formControlName="first_name" />
+    </label>
 
-    <input type="text" placeholder="email" class="input input-bordered w-full" formControlName="email" />
+    <label class="floating-label">
+      <span>Last Name</span>
+      <input type="text" placeholder="Last Name" class="input input-md input-bordered w-full"
+        formControlName="last_name" />
+    </label>
 
-    <input type="text" placeholder="telephone" class="input input-bordered w-full" formControlName="telephone" />
+    <label class="floating-label">
+      <span>Email</span>
+      <input type="text" placeholder="email" class="input input-bordered w-full" formControlName="email" />
+    </label>
+
+    <label class="floating-label">
+      <span>Number Phone</span>
+      <input type="text" placeholder="telephone" class="input input-bordered w-full" formControlName="telephone" />
+    </label>
 
     @if (user().id === "new") {
-    <input type="text" placeholder="password" class="input input-bordered w-full" formControlName="password" />
+    <label class="floating-label">
+      <span>Password</span>
+      <input type="text" placeholder="password" class="input input-bordered w-full" formControlName="password" />
+    </label>
     }
 
-    <select class="select select-bordered w-full" formControlName="role_id">
-      <option value="0">Selecciona un rol</option>
-      @for (role of rolerResource.value()?.data; track role.id) {
-      <option [value]="role.id">{{ role.name }}</option>
+    <label class="floating-label">
+      <span>Rol</span>
+      <select class="select select-bordered w-full" formControlName="role_id">
+        <option value="0">Selecciona un rol</option>
+        @for (role of rolerResource.value()?.data; track role.id) {
+        <option [value]="role.id">{{ role.name }}</option>
+        }
+      </select>
+    </label>
+  </div>
+
+  <div class="flex flex-col gap-2 h-[300px] ">
+    <div class="flex items-center justify-center">
+      @if (!previewIMG) {
+      <img class="object-contain animate-fadeIn h-[300px]" [src]="user().id | userImage" [alt]="user().avatar"
+        width="500" height="500" />
+      }@else {
+      <img class="object-contain animate-fadeIn h-[300px]" [src]="previewURL" [alt]="user().avatar" width="500"
+        height="500" />
       }
-    </select>
+    </div>
 
-    <div class="flex justify-end h-12">
-      <button class="btn btn-secondary" type="submit">
+    <input type="file" accept="image/*" class="file-input file-input-bordered w-full h-[300px]"
+      (change)="onFilesChange($event)" width="300" height="300" />
+  </div>
 
+  <div class="col-span-2 my-5 py-5">
+    <div class="flex justify-center h-12">
+      <button class="btn btn-secondary px-20 text-lg" type="submit">
         Guardar
       </button>
     </div>
   </div>
 
-
-  <div class="flex flex-col gap-2 h-[500px]">
-    <div class="flex items-center justify-center">
-      @if (!previewIMG) {
-      <img
-        class="object-contain animate-fadeIn h-[300px]"
-        [src]="user().id | userImage"
-        [alt]="user().avatar"
-        width="500"
-        height="500"
-      />
-      }@else {
-      <img
-        class="object-contain animate-fadeIn h-[300px]"
-        [src]="previewURL"
-        [alt]="user().avatar"
-        width="500"
-        height="500"
-      />
-      }
-    </div>
-
-
-    <input
-      type="file"
-      accept="image/*"
-      class="file-input file-input-bordered w-full mt-4"
-      (change)="onFilesChange($event)"
-    />
-
-  </div>
 </form>

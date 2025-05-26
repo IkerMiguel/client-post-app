@@ -4,7 +4,25 @@
 
 <div class="divider divider-secondary"></div>
 <div class="flex gap-2 items-center h-20">
-  <button class="btn btn-secondary" routerLink="/dashboard/users/new">
+  <app-pagination
+    [pages]="userResource.value()?.data?.totalPages ?? 0"
+    [limit]="limit()"
+  >
+  </app-pagination>
+
+  <select
+    class="select select-bordered w-32 mb-10 mt-4"
+    [value]="limit()"
+    (change)="setLimit(itemPP.value)"
+    #itemPP
+  >
+    <option>2</option>
+    <option>3</option>
+    <option>4</option>
+    <option>5</option>
+  </select>
+
+  <button class="btn btn-secondary ms-3 mb-10 mt-4" routerLink="/dashboard/users/new">
     <i class="bi bi-plus-circle"></i>New User
   </button>
 </div>
@@ -22,3 +40,9 @@
   <h2 class="text-2xl">Lista No Tiene Datos Para Mostrar</h2>
 </div>
 }
+
+<app-pagination
+    [pages]="userResource.value()?.data?.totalPages ?? 0"
+    [limit]="limit()"
+>
+</app-pagination>

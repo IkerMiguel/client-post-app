@@ -1,7 +1,12 @@
-import { Injectable } from '@angular/core';
+import { effect, Injectable } from '@angular/core';
 import { BaseHttpService } from '../../shared/services/base-http.service';
 import { empty, Observable, of } from 'rxjs';
 import { Role, RoleResponse, User, UserResponse, UsersResponse } from '../interfaces/user.interface';
+
+interface Options{
+  limit?: number,
+  page?: number,
+}
 
 const emptyUser: User = {
   id: 'new',
@@ -20,8 +25,9 @@ const emptyUser: User = {
 })
 export class UserService extends BaseHttpService{
 
-  getUsers(): Observable<UsersResponse> {
-    return this.http.get<UsersResponse>(`${this.apiUrl}/users`)
+  getUsers(options: Options): Observable<UsersResponse> {
+    const { limit =4, page =1} = options;
+    return this.http.get<UsersResponse>(`${this.apiUrl}/users`, {params:{limit,page}});
   }
     getUser(id: string): Observable<UserResponse> {
 

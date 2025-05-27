@@ -24,7 +24,7 @@
       </div>
       <div id="nav" class="w-full px-6">
         <a
-          class="w-full px-2 inline-flex space-x-2 items-center border-b border-slate-700 py-3 hover:bg-white/5 transition ease-linear duration-150 rounded-xl"
+          class="w-full px-2 inline-flex space-x-2 items-center border-b border-slate-700 py-3 hover:bg-white/5 transition ease-linear duration-150 rounded-xl mb-5"
           [routerLink]="['/dashboard/users']"
           routerLinkActive="bg-blue-800">
           <div>
@@ -33,6 +33,18 @@
           <div class="flex flex-col">
             <span class="text-lg text-slate-300 font-bold leading-5">Usuarios</span>
             <span class="text-sm text-slate-500 hidden md:block">Gestion de Usuarios</span>
+          </div>
+        </a>
+        <a
+          class="w-full px-2 inline-flex space-x-2 items-center border-b border-slate-700 py-3 hover:bg-white/5 transition ease-linear duration-150 rounded-xl mb-5"
+          [routerLink]="['/dashboard/roles']"
+          routerLinkActive="bg-blue-800">
+          <div>
+            <i class="bi bi-person-fill-gear"></i>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-lg text-slate-300 font-bold leading-5">Roles</span>
+            <span class="text-sm text-slate-500 hidden md:block">Gestion de Roles</span>
           </div>
         </a>
       </div>

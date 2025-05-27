@@ -1,5 +1,5 @@
 import { Component, effect, inject, input, linkedSignal } from '@angular/core';
-import { UserService } from '../../../users/services/user.service';
+import { UserService } from '@users/services/user.service';
 import { Router } from '@angular/router';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { UserDetailComponent } from "./user-detail/user-detail.component";

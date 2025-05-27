@@ -1,0 +1,20 @@
+<ul class="list bg-base-100 rounded-box shadow-md">
+  
+    @for (role of roles(); track role.id; let i = $index) {
+  <li class="p-4 pb-2 text-xs opacity-60 tracking-wide">Most played songs this week</li>
+  
+  <li class="list-row">
+    <div class="text-4xl font-thin opacity-30 tabular-nums">{{i + 1}}</div>
+    <div class="list-col-grow my-auto">
+      <div class="text-lg text-uppercase">{{role.name}}</div>
+    </div>
+    <button class="btn btn-square btn-error"(click)="emitDelete(role.id)">
+        <i class="bi bi-trash3"></i>
+    </button>
+    <button class="btn btn-square btn-info" (click)="editRole(role)">
+        <i class="bi bi-pencil-square"></i>
+    </button>
+  </li>
+}
+</ul>
+<role-modal [isOpen]="openModal()" (isClose)="openModal.set(false)" [role]="currentRole()"/>

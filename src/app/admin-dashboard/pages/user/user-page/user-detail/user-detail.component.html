@@ -42,7 +42,7 @@
       <span>Rol</span>
       <select class="select select-bordered w-full" formControlName="role_id">
         <option value="0">Selecciona un rol</option>
-        @for (role of rolerResource.value()?.data; track role.id) {
+        @for (role of rolesResource.value()?.data?.roles; track role.id) {
         <option [value]="role.id">{{ role.name }}</option>
         }
       </select>

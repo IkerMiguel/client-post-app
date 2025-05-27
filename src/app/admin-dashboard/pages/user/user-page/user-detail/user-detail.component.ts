@@ -1,11 +1,12 @@
 import { Component, inject, input } from '@angular/core';
-import { User } from '../../../../users/interfaces/user.interface';
+import { User } from '@users/interfaces/user.interface';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService } from '../../../../users/services/user.service';
+import { UserService } from '@users/services/user.service';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { UserImagePipe } from '../../../../users/pipes/user-image.pipe';
+import { UserImagePipe } from '@users/pipes/user-image.pipe';
 import Swal from 'sweetalert2';
+import { RolesService } from '@roles/services/roles.service';
 
 @Component({
   selector: 'user-detail',
@@ -21,7 +22,8 @@ export class UserDetailComponent {
   previewURL: string | null = null;
   avatarFile: File | null = null;
 
-  UserService = inject(UserService);
+  userService = inject(UserService);
+  rolesService = inject(RolesService);
 
   userForm = this.fb.group({
     first_name: ['', Validators.required],
@@ -47,10 +49,10 @@ export class UserDetailComponent {
     console.log(this.userForm.value);
   }
 
-  rolerResource = rxResource({
-    request: () => ({}),
-    loader: () => {
-      return this.UserService.getRoles();
+  rolesResource = rxResource({
+    request: () => ({limit: 50}),
+    loader: ({request}) => {
+      return this.rolesService.getRoles({limit: request.limit});
     },
   });
 
@@ -63,9 +65,9 @@ export class UserDetailComponent {
     const formValue = this.userForm.value;
 
     if (this.user().id === 'new') {
-      this.UserService.created(formValue).subscribe((resp) => {
+      this.userService.created(formValue).subscribe((resp) => {
         if (this.avatarFile) {
-          this.UserService.uploadAvatar(
+          this.userService.uploadAvatar(
             resp.data.id,
             this.avatarFile,
           ).subscribe(() => {
@@ -88,9 +90,9 @@ export class UserDetailComponent {
         this.router.navigate(['/dashboard/users', resp.data.id]);
       });
     } else {
-      this.UserService.updated(this.user().id, formValue).subscribe((resp) => {
+      this.userService.updated(this.user().id, formValue).subscribe((resp) => {
         if (this.avatarFile) {
-          this.UserService.uploadAvatar(
+          this.userService.uploadAvatar(
             this.user().id,
             this.avatarFile,
           ).subscribe(() => {

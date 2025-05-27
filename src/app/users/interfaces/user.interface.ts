@@ -1,3 +1,5 @@
+import { Role } from "@roles/interfaces/roles.interface";
+
 export interface UsersResponse {
     success: boolean;
     message: string;
@@ -31,22 +33,5 @@ export interface User {
     auth?: boolean;
 }
 
-export interface Role {
-    id:   string;
-    name: string;
-}
-
-export interface RoleResponse {
-    success: boolean;
-    message: string;
-    data:    Role[];
-}
-
-export interface Role {
-    id:        string;
-    name:      string;
-    createdAt: Date;
-    updatedAt: Date;
-}
 
 

@@ -1,5 +1,6 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { User } from '@users/interfaces/user.interface';
 
 @Component({
   selector: 'user-table',
@@ -8,5 +9,10 @@ import { RouterLink } from '@angular/router';
   styleUrl: './user-table.component.css'
 })
 export class UserTableComponent {
-  users = input.required<any>();
+  users = input.required<User[]>();
+  deleted = output<string>();
+
+  emitDelete(id: string) {
+    this.deleted.emit(id);
+  }
 }

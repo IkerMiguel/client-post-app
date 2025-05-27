@@ -1,18 +1,16 @@
-import { effect, Injectable } from '@angular/core';
-import { BaseHttpService } from '../../shared/services/base-http.service';
+import { effect, Injectable,inject } from '@angular/core';
+import { BaseHttpService } from '@shared/services/base-http.service';
 import { empty, Observable, of, tap } from 'rxjs';
 import {
-  Role,
-  RoleResponse,
   User,
   UserResponse,
   UsersResponse,
 } from '../interfaces/user.interface';
-
-interface Options {
-  limit?: number;
-  page?: number;
-}
+import { AuthService } from '@auth/services/auth.service';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+import { Role } from '@roles/interfaces/roles.interface';
+import { Options } from '@shared/interfaces/shared.interfaces';
 
 const emptyUser: User = {
   id: 'new',
@@ -32,7 +30,10 @@ const emptyUser: User = {
 export class UserService extends BaseHttpService {
   private userCache = new Map<string, UserResponse>();
   private usersCache = new Map<string, UsersResponse>();
-  private rolesCache = new Map<string, RoleResponse>();
+
+
+  authService = inject(AuthService);
+  router = inject(Router)
 
   getUsers(options: Options): Observable<UsersResponse> {
     const { limit = 4, page = 1 } = options;
@@ -67,15 +68,6 @@ export class UserService extends BaseHttpService {
         .pipe(tap((resp) => this.userCache.set(id, resp)));
   }
 
-  getRoles(): Observable<RoleResponse> {
-    if (this.rolesCache.has('roles')) {
-      return of(this.rolesCache.get('roles')!);
-    }
-
-    return this.http
-       .get<RoleResponse>(`${this.apiUrl}/roles`)
-       .pipe(tap((resp) => this.rolesCache.set('roles', resp)));
-  }
 
   created(data: any): Observable<UserResponse> {
     return this.http
@@ -118,6 +110,46 @@ export class UserService extends BaseHttpService {
       );
     });
   }
+
+  deletedUser(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/users/${id}`).pipe(tap(() => this.removeIfSameUser(id)));
+
+  }
+
+  removeIfSameUser(id: string) {
+    const storedUser = localStorage.getItem('user');
+      if(storedUser) {
+        const parsedUser = JSON.parse(storedUser);
+        if(parsedUser.id === id) {
+          this.authService.logout();
+
+          Swal.fire({
+                    position: "center",
+                    icon: 'info',
+                    title: "Te eliminaron la cuenta, Te desconectaron",
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
+        this.router.navigate(['/auth/login']);
+      }else{
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
+              showCancelButton: false,
+              confirmButtonColor: "#3085d6",
+              cancelButtonColor: "#d33",
+              confirmButtonText: "Ok"
+            }).then((result) => {
+              if (result.isConfirmed) {
+                location.reload();
+              }
+            });
+      }
+    }
+  }
+
+
 
   uploadAvatar(id: string, image: File): Observable<string> {
     const formData = new FormData();

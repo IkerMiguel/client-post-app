@@ -3,6 +3,17 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@dashboard/*":["./src/app/admin-dashboard/*"],
+      "@auth/*":["./src/app/auth/*"],
+      "@front/*":["./src/app/front-page/*"],
+      "@post/*":["./src/app/post/*"],
+      "@roles/*":["./src/app/roles/*"],
+      "@shared/*":["./src/app/shared/*"],
+      "@users/*":["./src/app/users/*"],
+      "@utils/*":["./src/app/utils/*"],
+    },
     "outDir": "./dist/out-tsc",
     "strict": true,
     "noImplicitOverride": true,

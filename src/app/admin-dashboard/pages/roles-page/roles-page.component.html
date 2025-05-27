@@ -1,0 +1,55 @@
+<div class="mb-5">
+  <h1 class="text-2xl text-secondary">Lista de Usuarios</h1>
+</div>
+
+<div class="divider divider-secondary"></div>
+
+<div class="flex w-full gap-2 items-center justify-between">
+<label class="floating-label mb-10 mt-4">
+  <span>Items per Page</span>
+
+  <select
+    class="select select-bordered w-32 mb-10 mt-4"
+    [value]="limit()"
+    (change)="setLimit(itemPP.value)"
+    #itemPP
+  >
+    <option>5</option>
+    <option>10</option>
+    <option>15</option>
+    <option>30</option>
+  </select>
+  </label>
+
+    <app-pagination
+    [pages]="roleResource.value()?.data?.totalPages ?? 0"
+    [currentPage]="paginationService.currentPage()"
+  ></app-pagination>
+
+  <button class="btn btn-secondary ms-3 mb-10 mt-4" (click)="openModal.set(true)">
+    <i class="bi bi-plus-circle"></i>New Role
+  </button>
+  <role-modal [isOpen]="openModal()" (isClose)="openModal.set(false)" [role]="emptyRole"/>
+</div>
+
+@if(roleResource.isLoading()){
+<div class="flex justify-center items-center h-screen">
+  <span class="loading loading-spinner loading-lg"></span>
+</div>
+}
+
+@if (roleResource.hasValue()){
+
+    <role-list [roles]="roleResource.value().data.roles"(deleted)="deletedRole($event)"></role-list>
+
+}@else {
+<div class="flex justify-center items-center h-screen">
+  <h2 class="text-2xl">Lista No Tiene Datos Para Mostrar</h2>
+</div>
+}
+
+<app-pagination
+    [pages]="roleResource.value()?.data?.totalPages ?? 0"
+    [currentPage]="paginationService.currentPage()"
+>
+</app-pagination>
